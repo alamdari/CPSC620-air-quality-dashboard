@@ -52,7 +52,8 @@ def clean_data(df):
     df_clean = df.copy()
     
     # Replace -200 values (missing data indicator) with NaN
-    df_clean = df_clean.replace(-200, np.nan)
+    df_clean = df_clean.applymap(lambda x: str(x).replace(',', '.') if isinstance(x, str) else x)
+    df_clean = df_clean.replace(to_replace=['-200', '-200.0', '-200.00', '-200.000', -200, -200.0], value=np.nan)
     
     # Convert date and time columns
     df_clean['Date'] = pd.to_datetime(df_clean['Date'], format='%d/%m/%Y')
