@@ -325,7 +325,8 @@ def create_summary_metrics_display(metrics):
         display_metrics['CO Concentration'] = {
             'Average': f"{co_metrics['mean']:.2f} mg/m³",
             'Maximum': f"{co_metrics['max']:.2f} mg/m³",
-            'Minimum': f"{co_metrics['min']:.2f} mg/m³"
+            'Minimum': f"{co_metrics['min']:.2f} mg/m³",
+            'Std Dev': f"{co_metrics['std']:.2f} mg/m³"
         }
     
     # Format Temperature metrics
@@ -334,7 +335,8 @@ def create_summary_metrics_display(metrics):
         display_metrics['Temperature'] = {
             'Average': f"{temp_metrics['mean']:.1f} °C",
             'Maximum': f"{temp_metrics['max']:.1f} °C",
-            'Minimum': f"{temp_metrics['min']:.1f} °C"
+            'Minimum': f"{temp_metrics['min']:.1f} °C",
+            'Std Dev': f"{temp_metrics['std']:.1f} °C"
         }
     
     # Format Humidity metrics
@@ -343,7 +345,8 @@ def create_summary_metrics_display(metrics):
         display_metrics['Relative Humidity'] = {
             'Average': f"{rh_metrics['mean']:.1f}%",
             'Maximum': f"{rh_metrics['max']:.1f}%",
-            'Minimum': f"{rh_metrics['min']:.1f}%"
+            'Minimum': f"{rh_metrics['min']:.1f}%",
+            'Std Dev': f"{rh_metrics['std']:.1f}%"
         }
     
     return display_metrics
