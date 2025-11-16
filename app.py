@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from analysis import load_data, clean_data, get_data_summary, calculate_air_quality_metrics
 from visualize import (plot_co_over_time, plot_temperature_vs_humidity, 
                       plot_pollutant_distribution, plot_correlation_heatmap,
-                      plot_nox_vs_sensor, create_summary_metrics_display)
+                      plot_nox_vs_sensor, create_summary_metrics_display, plot_average_pollutants)
 
 # Configure the page
 st.set_page_config(
@@ -143,6 +143,13 @@ def main():
     corr_plot = plot_correlation_heatmap(df)
     if corr_plot:
         st.pyplot(corr_plot)
+
+    st.subheader("Average Pollutant Concentrations")
+    avg_pol_plot = plot_average_pollutants(df)
+    if avg_pol_plot:
+        st.pyplot(avg_pol_plot)
+    else:
+        st.warning("No poluutant data available for comparison!")
 
 if __name__ == "__main__":
     main()
