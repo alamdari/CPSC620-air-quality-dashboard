@@ -347,3 +347,66 @@ def create_summary_metrics_display(metrics):
         }
     
     return display_metrics
+
+
+
+def plot_average_pollutants(df, title="Average Pollutant Concentrations"):
+    """
+    Create a bar chart showing average concentrations of major pollutants.
+    
+    Args:
+        df (pd.DataFrame): Cleaned dataset
+        title (str): Chart title
+        
+    Returns:
+        matplotlib.figure.Figure: The plot figure
+    """
+    if df is None:
+        return None
+    
+    # Define pollutants to include
+    pollutants = {
+        'CO(GT)': 'CO',
+        'NOx(GT)': 'NOx',
+        'NO2(GT)': 'NO2',
+        'C6H6(GT)': 'Benzene',
+        'NMHC(GT)': 'NMHC'
+    }
+    
+    # Calculate averages for available pollutants
+    pollutant_data = {}
+    for col, label in pollutants.items():
+        if col in df.columns:
+            avg = df[col].mean()
+            if not pd.isna(avg):
+                pollutant_data[label] = avg
+    
+    if not pollutant_data:
+        return None
+    
+    # Create the bar chart
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    pollutants_list = list(pollutant_data.keys())
+    averages = list(pollutant_data.values())
+    colors = ['#2E8B57', '#FF6B6B', '#4A90E2', '#FFD93D', '#6A5ACD']
+    
+    bars = ax.bar(pollutants_list, averages, color=colors[:len(pollutants_list)], 
+                   alpha=0.7, edgecolor='black', linewidth=1.2)
+    
+    ax.set_title(title, fontsize=16, fontweight='bold')
+    ax.set_xlabel('Pollutant', fontsize=12)
+    ax.set_ylabel('Average Concentration', fontsize=12)
+    ax.grid(True, alpha=0.3, axis='y')
+    
+    # Add value labels on top of bars
+    for bar in bars:
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., height,
+                f'{height:.2f}',
+                ha='center', va='bottom', fontsize=10, fontweight='bold')
+    
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    
+    return fig
