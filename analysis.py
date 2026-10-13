@@ -77,7 +77,7 @@ def clean_data(df):
             df_clean[col] = df_clean[col].astype(str).str.replace(',', '.')
             df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
 
-    # The source dataset uses -200 (sometimes read as text) for missing readings.
+    # The source dataset uses -200 (sometimes read as text) for missing readings..2nd attempt
     df_clean = df_clean.replace([-200, '-200'], np.nan)
     
     return df_clean
