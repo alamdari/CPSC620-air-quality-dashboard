@@ -59,8 +59,7 @@ def main():
     The dataset includes various air pollutants and weather variables collected over time.
     """)
     
-    # Load and cache data
-    @st.cache_data
+    # Load and clean data
     def load_and_clean_data():
         """Load and clean the air quality data."""
         raw_data = load_data("data/AirQualityUCI.csv")
