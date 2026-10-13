@@ -51,9 +51,6 @@ def clean_data(df):
     # Create a copy to avoid modifying the original
     df_clean = df.copy()
     
-    # Replace -200 values (missing data indicator) with NaN
-    df_clean = df_clean.replace(-200, np.nan)
-    
     # Convert date and time columns
     df_clean['Date'] = pd.to_datetime(df_clean['Date'], format='%d/%m/%Y')
     df_clean['Time'] = pd.to_datetime(df_clean['Time'], format='%H.%M.%S').dt.time
@@ -79,7 +76,10 @@ def clean_data(df):
             # Replace comma with dot for decimal separator
             df_clean[col] = df_clean[col].astype(str).str.replace(',', '.')
             df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
-    
+
+    # Replace -200 values (missing data indicator) with NaN
+    df_clean = df_clean.replace([-200, -200.0], np.nan)
+
     return df_clean
 
 
@@ -214,3 +214,32 @@ def get_daily_averages(df):
     daily_avg = df.groupby('Date')[numeric_cols].mean().reset_index()
     
     return daily_avg
+
+def calculate_data_quality_metrics(df):
+    """Calculate data completeness indicators."""
+
+    if df is None or df.empty:
+        return {}
+
+    numeric_cols = df.select_dtypes(
+        include=[np.number]
+    )
+
+    total_records = len(df)
+
+    valid_co = df["CO(GT)"].count()
+
+    missing_co_pct = (
+        df["CO(GT)"].isna().mean() * 100
+    )
+
+    completeness = (
+        1 - numeric_cols.isna().mean().mean()
+    ) * 100
+
+    return {
+        "total_records": total_records,
+        "valid_co": valid_co,
+        "missing_co_pct": missing_co_pct,
+        "completeness": completeness
+    }
