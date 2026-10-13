@@ -14,7 +14,7 @@ This project uses the **UCI Air Quality Dataset** from an Italian city monitorin
 - **Weather Variables**: Temperature, Relative Humidity, Absolute Humidity
 - **Time Period**: March 2004 - February 2005
 - **Frequency**: Hourly measurements
-- **Missing Data**: Some measurements marked as -200 (handled in the code)
+- **Missing Data**: The source dataset represents missing or invalid sensor readings as `-200`. The dashboard converts these values to `NaN` during preprocessing, so metrics and visualizations use cleaned data.
 
 ### Dataset Source:
 - **Original Dataset**: [UCI Machine Learning Repository - Air Quality](https://archive.ics.uci.edu/dataset/360/air+quality)
