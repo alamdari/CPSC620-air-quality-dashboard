@@ -51,8 +51,7 @@ def clean_data(df):
     # Create a copy to avoid modifying the original
     df_clean = df.copy()
     
-    # Replace -200 values (missing data indicator) with NaN
-    df_clean = df_clean.replace(-200, np.nan)
+
     
     # Convert date and time columns
     df_clean['Date'] = pd.to_datetime(df_clean['Date'], format='%d/%m/%Y')
@@ -79,6 +78,9 @@ def clean_data(df):
             # Replace comma with dot for decimal separator
             df_clean[col] = df_clean[col].astype(str).str.replace(',', '.')
             df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
+    
+    # Replace -200 values (missing data indicator) with NaN
+    df_clean = df_clean.replace([-200.0, -200], np.nan)
     
     return df_clean
 
